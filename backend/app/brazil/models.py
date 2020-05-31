@@ -16,3 +16,6 @@ class Occurrence(models.Model):
     date_occured = models.DateField(null=True, blank=True)
     death_count = models.IntegerField()
     cases_count = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.state} - {self.cases_count} cases - {self.date}"
