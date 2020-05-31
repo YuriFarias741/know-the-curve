@@ -101,8 +101,12 @@ class UrbanizationLandPerRegion(TemplateView):
             regions.append(k)
             cases.append(v['cases'])
             urban_center_land_areas.append(v['urban_center_land_area'])
-        exported_plot = export_plot(cases, urban_center_land_areas, 'Confirmed cases per region vs urban center land area in sq km',
-                                    regions, output_type="div", xaxis_type="linear", yaxis_type="log",
-                                    textposition='top center')
+
+        fig = go.Figure(data=go.Scatter(x=cases, y=urban_center_land_areas, mode='markers+text', marker_color=urban_center_land_areas,
+        text=regions))
+        fig.update_layout(title=f'Confirmed cases per region vs urban center land area in sq km', xaxis_title='cases',
+         yaxis_title='urban center land area (square km)')
+        fig.update_traces(textposition='top center')
+        exported_plot = plot(fig, output_type='div')
         context = {'graphic': exported_plot}
         return render(request, self.template_name, context)
