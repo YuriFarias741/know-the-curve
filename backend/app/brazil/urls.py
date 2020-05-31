@@ -6,5 +6,5 @@ from . import views
 app_name = 'brazil'
 
 urlpatterns = [
-    path('/', views.state_full_listing),
+    path('', views.state_full_listing),
 ]
