@@ -12,6 +12,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+import plotly.graph_objects as go
+from plotly.offline import plot
+
 from brazil.consts import URL_LOCALIDADES, URL_POPULACAO, URL_COVID_STATUS
 from brazil.models import Occurrence
 from core.utils import export_plot
@@ -27,7 +30,6 @@ def state_full_listing(request):
             if not month_occurences_per_state.get(occurence.state.state, None):
                 month_occurences_per_state[occurence.state.state] = {}
             month_occurences_per_state[occurence.state.state][day.strftime("%d/%m/%Y")] = occurence.cases_count
-            print(occurence.cases_count)
     state_data = {}
     for k, v in month_occurences_per_state.items():
         d = sorted(v.items(), key=lambda item: item[0]) # Order by date
@@ -36,8 +38,23 @@ def state_full_listing(request):
         current_cases = response["cases"]
         current_deaths = response["deaths"]
         state_data[k] = {"cases": current_cases, "deaths": current_deaths, "slope": case_array[-1] - case_array[0]}
-        print(state_data)
     return Response(state_data, status=status.HTTP_200_OK)
+
+
+class StateCasesTimeSeries(TemplateView):
+    template_name = 'plot_frame.html'
+
+    def get(self, request, state):
+        state_occurences = Occurrence.objects.filter(state__state=state.upper()).order_by('date_occured').values_list('cases_count', 'date_occured')
+        cases, dates = zip(*state_occurences)
+        print(dates)
+        print(cases)
+        fig = go.Figure(data=go.Scatter(x=dates, y=cases))
+        fig.update_layout(title=f'COVID-19 Cases per time in the state of {state.upper()}', xaxis_title='time', yaxis_title='cases')
+        exported_plot = plot(fig, output_type='div')
+        context = {'graphic': exported_plot}
+        return render(request, self.template_name, context)
+
 
 class DemographicDensityPerState(TemplateView):
     template_name = 'plot_frame.html'
