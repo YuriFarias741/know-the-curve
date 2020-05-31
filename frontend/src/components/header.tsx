@@ -8,7 +8,6 @@ const Header: React.FC = () => {
       <div className="header row">
         <div className="col-md-6 col-sm-12">
           <h1> know the curve_ </h1>
-          <h3>Por grupo aipim</h3>
           <br></br>
           <p>
             Know the curve_ is a support system that works by correlating data

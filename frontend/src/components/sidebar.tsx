@@ -14,15 +14,15 @@ const Sidebar: React.FC = () => {
       <div className="menu">
         <a className="menu-item" onClick={() => scrollTo('about')}>
           <i className="fas fa-info-circle"></i>
-          <div className="title">Sobre</div>
+          <div className="title">About</div>
         </a>
         <a className="menu-item" onClick={() => scrollTo('maps')}>
           <i className="far fa-map"></i>
-          <div className="title">Mapa</div>
+          <div className="title">Map</div>
         </a>
         <a className="menu-item" onClick={() => scrollTo('chart')}>
           <i className="fas fa-chart-line"></i>
-          <div className="title">Gráfico</div>
+          <div className="title">Graphic</div>
         </a>
       </div>
     </div>

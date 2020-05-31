@@ -7,6 +7,7 @@ import polygonsJson from '../assets/polygons.json';
 import pSBC from '../utils/pscb';
 import {fetchCoutryResources} from '../services/api';
 import LatLonJson from '../assets/latlon.json';
+import LabelJson from '../assets/labels.json';
 
 export class MapContainer extends Component {
   constructor(props) {
@@ -15,7 +16,9 @@ export class MapContainer extends Component {
       states: [],
       loadingMap: true,
       loadingChart: true,
+      loadingDetails: false,
       chart: '',
+      stateChart: '',
       selected: null,
     };
   }
@@ -42,6 +45,7 @@ export class MapContainer extends Component {
             const geo = _.get(LatLonJson, state.sigla);
             return {
               ...state,
+              name: _.get(LabelJson, state.sigla, state.sigla),
               geo: {
                 lat: _.get(geo, 'lat'),
                 lng: _.get(geo, 'lon'),
@@ -49,6 +53,7 @@ export class MapContainer extends Component {
               data: {
                 cases: _.get(resources, 'data.cases', 0),
                 slope: _.get(resources, 'data.slope', 0),
+                deaths: _.get(resources, 'data.deaths', 0),
               },
             };
           }),
@@ -75,14 +80,27 @@ export class MapContainer extends Component {
       });
   }
   showDetails = state => {
-    this.setState({
-      ...this.state,
-      selected: state,
-    });
+    this.loadingDetails = true;
+    fetch(`http://localhost:8000/api/brazil/${state.sigla}`)
+      .then(response => response.text())
+      .then(data => {
+        this.setState({
+          ...this.state,
+          loadingDetails: false,
+          stateChart: data,
+          selected: state,
+        });
+      })
+      .catch(err => {
+        this.setState({...this.state, selected: state, loadingDetails: false});
+        console.log(err);
+      });
   };
   hiddeDetails = () => {
     this.setState({
       ...this.state,
+      loadingDetails: false,
+      stateChart: '',
       selected: null,
     });
   };
@@ -156,24 +174,33 @@ export class MapContainer extends Component {
                   {this.renderPolygons()}
                   {/* {this.rendermarker()} */}
                 </Map>
-                {this.state.selected && (
+                {this.state.selected && !this.state.loadingChart && (
                   <div className="map-info">
                     <div className="infoheader">
-                      <p>{this.state.selected.sigla}</p>
+                      <h3>{this.state.selected.name}</h3>
                       <a onClick={this.hiddeDetails}>
                         <i className="fas fa-times"></i>
                       </a>
                     </div>
                     <p>
-                      <b>Cases:</b>{' '}
+                      <b>Cases: </b>
                       {_.get(this.state, 'selected.data.cases', 0)}
                     </p>
+                    <p>
+                      <b>Deaths: </b>
+                      {_.get(this.state, 'selected.data.deaths', 0)}
+                    </p>
+                    <iframe
+                      className="chartFrame"
+                      srcDoc={this.state.stateChart}
+                    ></iframe>
                   </div>
                 )}
-                {this.state.loadingMap && (
+                {(this.state.loadingMap ||
+                  (this.state.selected && this.state.loadingChart)) && (
                   <div className="loading">
                     <i className="fas fa-circle-notch fa-spin"></i>
-                    Carregando dados...
+                    Loading...
                   </div>
                 )}
               </div>
@@ -187,15 +214,15 @@ export class MapContainer extends Component {
               {this.state.loadingChart && (
                 <div className="loading">
                   <i className="fas fa-circle-notch fa-spin"></i>
-                  Carregando dados...
+                  Loading...
                 </div>
               )}
             </div>
             <div className="col-md-3 col-sm-12 mapa-info">
-              <h2>Densidade demográfica</h2>
+              <h2>Demographic density</h2>
               <p>
-                O gráfico ao lado traz uma correlação de densidade demográfica
-                com casos confirmados de covid-19.
+                The graph on the right shows a correlation of demographic
+                density with confirmed cases of covid-19.
               </p>
             </div>
           </div>
