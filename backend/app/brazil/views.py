@@ -51,6 +51,8 @@ class DemographicDensityPerState(TemplateView):
         estados = np.array([item[0] for item in estado_populacao_casos])
         populacao = np.array([item[1][0] for item in estado_populacao_casos])
         casos = np.array([item[1][1] for item in estado_populacao_casos])
-        exported_plot = export_plot(casos, populacao, 'Confirmed cases per state vs demographic density', estados, output_type="div", xaxis_type="log", yaxis_type="linear")
+        exported_plot = export_plot(casos, populacao, 'Confirmed cases per state vs demographic density',
+                                    estados, output_type="div", xaxis_type="log", yaxis_type="linear",
+                                    textposition='top center')
         context = {'graphic': exported_plot}
         return render(request, self.template_name, context)
