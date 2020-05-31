@@ -16,4 +16,5 @@ def export_plot(x, y, name, labels, output_type="div", xaxis_type="linear", yaxi
         fig.update_traces(textposition=textposition)
     fig.update_layout(title=name, yaxis_type=yaxis_type, xaxis_type=xaxis_type)
     fig.show()
+
     return plot(fig, output_type=output_type, include_plotlyjs=False)

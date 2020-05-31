@@ -17,6 +17,7 @@ from plotly.offline import plot
 
 from brazil.consts import URL_LOCALIDADES, URL_POPULACAO, URL_COVID_STATUS
 from brazil.models import Occurrence
+from brazil.data.selected.urbanization_cut import URBANIZATION
 from core.utils import export_plot
 
 @api_view(['GET',])
@@ -73,6 +74,35 @@ class DemographicDensityPerState(TemplateView):
         casos = np.array([item[1][1] for item in estado_populacao_casos])
         exported_plot = export_plot(casos, populacao, 'Confirmed cases per state vs demographic density',
                                     estados, output_type="div", xaxis_type="log", yaxis_type="linear",
+                                    textposition='top center')
+        context = {'graphic': exported_plot}
+        return render(request, self.template_name, context)
+
+class UrbanizationLandPerRegion(TemplateView):
+    template_name = 'plot_frame.html'
+
+    def get(self, request):
+        response = requests.get(URL_LOCALIDADES).json()
+        estados_localidade = {item["sigla"]:item["id"] for item in response}
+        estado_populacao_casos_dict = {}
+        for estado, localidade in estados_localidade.items():
+            populacao = requests.get(URL_POPULACAO.format(localidade)).json()["projecao"]["populacao"]
+            casos = requests.get(URL_COVID_STATUS.format(estado.lower())).json()["cases"]
+            estado_populacao_casos_dict[estado] = (populacao, casos)
+        region_vs_cases = {}
+        for region, data in URBANIZATION.items():
+            region_vs_cases[region] = {'cases': 0, 'urban_center_land_area': data['urban_center_land_area']}
+            for curr_state in data['related_states']:
+                region_vs_cases[region]['cases'] += estado_populacao_casos_dict[curr_state][1]
+        regions = []
+        cases = []
+        urban_center_land_areas = []
+        for k, v in region_vs_cases.items():
+            regions.append(k)
+            cases.append(v['cases'])
+            urban_center_land_areas.append(v['urban_center_land_area'])
+        exported_plot = export_plot(cases, urban_center_land_areas, 'Confirmed cases per region vs urban center land area in sq km',
+                                    regions, output_type="div", xaxis_type="linear", yaxis_type="log",
                                     textposition='top center')
         context = {'graphic': exported_plot}
         return render(request, self.template_name, context)
