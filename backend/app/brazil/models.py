@@ -18,4 +18,4 @@ class Occurrence(models.Model):
     cases_count = models.IntegerField()
 
     def __str__(self):
-        return f"{self.state} - {self.cases_count} cases - {self.date}"
+        return f"{self.state} - {self.cases_count} cases - {self.date_occured}"
