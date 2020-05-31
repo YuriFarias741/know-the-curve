@@ -1,0 +1,11 @@
+version: '3'
+services:
+  know_the_curve:
+    container_name: know_the_curve
+    build: ./
+    ports:
+      - '4000:4000'
+    environment:
+      - NODE_ENV=production
+      - PORT=4000
+      - HOST=0.0.0.0

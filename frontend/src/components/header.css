@@ -1,0 +1,23 @@
+.header {
+  width: 100%;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.header-fluid {
+  background-color: #eaeaea;
+}
+.header h1,
+.header h3 {
+  color: rgba(0, 0, 0, 0.5);
+}
+.header p {
+  text-align: justify;
+  color: rgba(0, 0, 0, 0.5);
+}
+.image {
+  max-width: 100%;
+  max-height: 300px;
+  width: auto;
+  height: auto;
+}
