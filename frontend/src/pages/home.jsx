@@ -16,6 +16,7 @@ export class MapContainer extends Component {
       loadingMap: true,
       loadingChart: true,
       chart: '',
+      selected: null,
     };
   }
 
@@ -73,7 +74,18 @@ export class MapContainer extends Component {
         console.log(err);
       });
   }
-  showDetails = state => {};
+  showDetails = state => {
+    this.setState({
+      ...this.state,
+      selected: state,
+    });
+  };
+  hiddeDetails = () => {
+    this.setState({
+      ...this.state,
+      selected: null,
+    });
+  };
   renderPolygons = () => {
     return this.state.states.map(state => {
       return (
@@ -118,17 +130,16 @@ export class MapContainer extends Component {
         <div className="container-fluid content content" id="maps">
           <div className="row">
             <div className="col-md-3 col-sm-12 col-sm-12 mapa-info">
-              <h2>Mapa de propagação</h2>
+              <h2>Heat map</h2>
               <p>
-                O mapa ao lado traz, em um primeiro momento, um panorama dos
-                casos de covid-19 no Brasil. Por se tratar de um mapa de calor,
-                a intensidade de suas cores é determinada com base no alto
-                índice de propagação do coronavírus em cada região. Além disso,
-                o mapa permite analisar a situação em cada estado do país, de
-                forma mais detalhada. Ao selecionar o estado que se “deseja”, o
-                crescimento da doença no local será representado por meio de um
-                gráfico. Este, por sua vez, corresponde à curva da doença para
-                aquele estado.
+                The map reveals, in the first moment, a pictorial view of the
+                Brazilian COVID-19 cases. Granting it is a heat map, the
+                intensity of the color is correlated to the spread of the
+                disease in each state. Therefore, the map allows us to analyze
+                the situation in a more detailed way. By selecting the state you
+                want to analyze, the spread of the disease will be represented
+                by a graphic showing how the COVID-19 curve is behaving in that
+                specific region.
               </p>
             </div>
             <div className="col-md-9 col-sm-12">
@@ -140,14 +151,25 @@ export class MapContainer extends Component {
                     lat: -17.17999531784841,
                     lng: -57.23911032110355,
                   }}
-                  onCenterChanged={(m, p, e) => {
-                    console.log(p.center.lat(),p.center.lng())
-                  }}
                   zoom={4}
                 >
                   {this.renderPolygons()}
                   {/* {this.rendermarker()} */}
                 </Map>
+                {this.state.selected && (
+                  <div className="map-info">
+                    <div className="infoheader">
+                      <p>{this.state.selected.sigla}</p>
+                      <a onClick={this.hiddeDetails}>
+                        <i className="fas fa-times"></i>
+                      </a>
+                    </div>
+                    <p>
+                      <b>Cases:</b>{' '}
+                      {_.get(this.state, 'selected.data.cases', 0)}
+                    </p>
+                  </div>
+                )}
                 {this.state.loadingMap && (
                   <div className="loading">
                     <i className="fas fa-circle-notch fa-spin"></i>
