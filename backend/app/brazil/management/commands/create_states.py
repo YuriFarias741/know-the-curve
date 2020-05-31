@@ -26,7 +26,7 @@ class Command(BaseCommand):
             day_cases = requests.get(f'https://covid19-brazil-api.now.sh/api/report/v1/brazil/{day.strftime("%Y%m%d")}').json()
             for case in day_cases["data"]:
                 state = State.objects.get(state=case["uf"])
-                print(f"Registering case... ({day} - {case["uf"]})")
+                print(f"Registering case... ({day} - {case['uf']})")
                 population = requests.get(URL_POPULACAO.format(state.ibge_locality_id)).json()["projecao"]["populacao"]
                 cases = case["cases"]
                 deaths = case["deaths"]
