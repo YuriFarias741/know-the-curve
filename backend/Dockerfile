@@ -4,7 +4,6 @@ MAINTAINER Yuri Farias
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
-RUN pip3 install --upgrade setuptools
 RUN apk add --update --no-cache postgresql-client jpeg-dev
 RUN apk add --update --no-cache --virtual .tmp-build-deps \
      gcc libc-dev linux-headers postgresql-dev musl-dev zlib zlib-dev

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'bootstrap4',
     # Local Apps
     'core',
     'brazil',
@@ -66,7 +67,7 @@ ROOT_URLCONF = 'app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['brazil/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
