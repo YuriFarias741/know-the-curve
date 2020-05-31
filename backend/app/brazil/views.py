@@ -21,7 +21,6 @@ def state_full_listing(request):
     week_occurrences_per_state = {}
     for day in week_list:
         response = requests.get(f'https://covid19-brazil-api.now.sh/api/report/v1/brazil/{day.strftime("%Y%m%d")}').json()
-        print(response)
         for data in response["data"]:
             if not week_occurrences_per_state.get(data["uf"], None):
                 week_occurrences_per_state[data["uf"]] = {}
@@ -32,5 +31,5 @@ def state_full_listing(request):
         datas = np.array([item[0] for item in d])
         casos_variacao = np.array([item[1] for item in d])
         casos = requests.get(f"https://covid19-brazil-api.now.sh/api/report/v1/brazil/uf/{k.lower()}/").json()["cases"]
-        state_data[k] = {"casos": casos, "variacao": casos_variacao[-1] - casos_variacao[0]}
+        state_data[k] = {"cases": casos, "slope": casos_variacao[-1] - casos_variacao[0]}
     return Response(state_data, status=status.HTTP_200_OK)
