@@ -251,14 +251,17 @@ export class MapContainer extends Component {
         <div className="container-fluid content charts2">
           <div className="row">
             <div className="col-md-3 col-sm-12 mapa-info">
-              <h2>Demographic density</h2>
+              <h2>Population x cases</h2>
               <p>
-                O gráfico de urbanização exibe a relação entre área de centro
-                urbano (em quilômetros quadrados) por região e seus casos
-                confirmados. Dados obtidos através da plataforma de dados
-                socioeconomicos da NASA (SEDAC). A ideia é investigar a
-                correlação entre os processos de urbanização e o avanço do
-                COVID.
+                The graphic illustrates the connection between the area of the
+                urban center (in kilometers) by area and the confirmed cases of
+                COVID-19 utilizing information made available by NASA - which
+                relies on dynamic data. Utilizing the graphic it is possible to
+                do observations and analysis about the correlation between the
+                process of urbanization and the spread of the disease in
+                society. To comprehend the graphic you need to assess that the
+                X-axis is associated to the cases and the Y is associated to the
+                population
               </p>
             </div>
             <div className="col-md-9 col-sm-12">
