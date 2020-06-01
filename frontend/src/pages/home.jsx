@@ -242,8 +242,12 @@ export class MapContainer extends Component {
             <div className="col-md-3 col-sm-12 mapa-info">
               <h2>Population x cases</h2>
               <p>
-                The graph on the right shows a correlation of demographic
-                density with confirmed cases of covid-19.
+                The graphic illustrates the connection between population
+                increasing and the confirmed cases of COVID-19 utilizing
+                information collected in public API's. To comprehend the graphic
+                you need to assess that the X-axis is associated to the cases
+                and the Y-axis is associated to the population, grouped by
+                state.
               </p>
             </div>
           </div>
@@ -251,7 +255,7 @@ export class MapContainer extends Component {
         <div className="container-fluid content charts2">
           <div className="row">
             <div className="col-md-3 col-sm-12 mapa-info">
-              <h2>Urban Center Land x Cases per region</h2>
+              <h2>Urban center land x Cases</h2>
               <p>
                 The graphic illustrates the connection between the area of the
                 urban center (in kilometers) by area and the confirmed cases of
@@ -261,7 +265,7 @@ export class MapContainer extends Component {
                 process of urbanization and the spread of the disease in
                 society. To comprehend the graphic you need to assess that the
                 X-axis is associated to the cases and the Y is associated to the
-                population
+                urban center land in square kilometers.
               </p>
             </div>
             <div className="col-md-9 col-sm-12">
