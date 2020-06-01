@@ -11,6 +11,10 @@ app.get('*', async function(req, res) {
   res.set('Cache-Control', 'public, max-age=31557600');
 });
 
+app.get('/', function(req, res) {
+  return res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
 app.listen(port, host, function() {
   console.log('Application run in port ' + port);
 });
