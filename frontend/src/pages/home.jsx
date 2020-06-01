@@ -67,7 +67,9 @@ export class MapContainer extends Component {
         });
         console.log(err);
       });
-    fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/demographic_density`)
+    fetch(
+      `http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/demographic_density`
+    )
       .then(response => response.text())
       .then(data => {
         this.setState({
@@ -80,7 +82,9 @@ export class MapContainer extends Component {
         this.setState({...this.state, loadingChart: false});
         console.log(err);
       });
-    fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/urbanization_land`)
+    fetch(
+      `http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/urbanization_land`
+    )
       .then(response => response.text())
       .then(data => {
         this.setState({
@@ -96,7 +100,9 @@ export class MapContainer extends Component {
   }
   showDetails = state => {
     this.loadingDetails = true;
-    fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/${state.sigla}`)
+    fetch(
+      `http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/${state.sigla}`
+    )
       .then(response => response.text())
       .then(data => {
         this.setState({
@@ -247,8 +253,12 @@ export class MapContainer extends Component {
             <div className="col-md-3 col-sm-12 mapa-info">
               <h2>Demographic density</h2>
               <p>
-                The graph on the right shows a correlation of demographic
-                density with confirmed cases of covid-19.
+                O gráfico de urbanização exibe a relação entre área de centro
+                urbano (em quilômetros quadrados) por região e seus casos
+                confirmados. Dados obtidos através da plataforma de dados
+                socioeconomicos da NASA (SEDAC). A ideia é investigar a
+                correlação entre os processos de urbanização e o avanço do
+                COVID.
               </p>
             </div>
             <div className="col-md-9 col-sm-12">
