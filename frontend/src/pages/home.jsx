@@ -240,7 +240,7 @@ export class MapContainer extends Component {
               )}
             </div>
             <div className="col-md-3 col-sm-12 mapa-info">
-              <h2>Demographic density</h2>
+              <h2>Population x cases</h2>
               <p>
                 The graph on the right shows a correlation of demographic
                 density with confirmed cases of covid-19.
@@ -251,7 +251,7 @@ export class MapContainer extends Component {
         <div className="container-fluid content charts2">
           <div className="row">
             <div className="col-md-3 col-sm-12 mapa-info">
-              <h2>Population x cases</h2>
+              <h2>Urban Center Land x Cases per region</h2>
               <p>
                 The graphic illustrates the connection between the area of the
                 urban center (in kilometers) by area and the confirmed cases of
