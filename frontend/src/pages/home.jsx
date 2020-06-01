@@ -20,6 +20,8 @@ export class MapContainer extends Component {
       chart: '',
       stateChart: '',
       selected: null,
+      chart2: '',
+      loadingChart2: true,
     };
   }
 
@@ -76,6 +78,19 @@ export class MapContainer extends Component {
       })
       .catch(err => {
         this.setState({...this.state, loadingChart: false});
+        console.log(err);
+      });
+    fetch(`http://localhost:8000/api/brazil/urbanization_land`)
+      .then(response => response.text())
+      .then(data => {
+        this.setState({
+          ...this.state,
+          loadingChart2: false,
+          chart2: data,
+        });
+      })
+      .catch(err => {
+        this.setState({...this.state, loadingChart2: false});
         console.log(err);
       });
   }
@@ -224,6 +239,29 @@ export class MapContainer extends Component {
                 The graph on the right shows a correlation of demographic
                 density with confirmed cases of covid-19.
               </p>
+            </div>
+          </div>
+        </div>
+        <div className="container-fluid content charts2">
+          <div className="row">
+            <div className="col-md-3 col-sm-12 mapa-info">
+              <h2>Demographic density</h2>
+              <p>
+                The graph on the right shows a correlation of demographic
+                density with confirmed cases of covid-19.
+              </p>
+            </div>
+            <div className="col-md-9 col-sm-12">
+              <iframe
+                className="chartFrame"
+                srcDoc={this.state.chart2}
+              ></iframe>
+              {this.state.loadingChart2 && (
+                <div className="loading">
+                  <i className="fas fa-circle-notch fa-spin"></i>
+                  Loading...
+                </div>
+              )}
             </div>
           </div>
         </div>
