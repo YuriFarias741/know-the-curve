@@ -67,7 +67,7 @@ export class MapContainer extends Component {
         });
         console.log(err);
       });
-    fetch(`http://localhost:8000/api/brazil/demographic_density`)
+    fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/demographic_density`)
       .then(response => response.text())
       .then(data => {
         this.setState({
@@ -80,7 +80,7 @@ export class MapContainer extends Component {
         this.setState({...this.state, loadingChart: false});
         console.log(err);
       });
-    fetch(`http://localhost:8000/api/brazil/urbanization_land`)
+    fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/urbanization_land`)
       .then(response => response.text())
       .then(data => {
         this.setState({
@@ -96,7 +96,7 @@ export class MapContainer extends Component {
   }
   showDetails = state => {
     this.loadingDetails = true;
-    fetch(`http://localhost:8000/api/brazil/${state.sigla}`)
+    fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/brazil/${state.sigla}`)
       .then(response => response.text())
       .then(data => {
         this.setState({

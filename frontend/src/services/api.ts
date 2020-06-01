@@ -7,7 +7,7 @@ export const fetchCoutryResources = (
 ): Promise<CountryResources[]> => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/${country}/`);
+      const response = await fetch(`http://ec2-34-229-66-142.compute-1.amazonaws.com/api/${country}/`);
       const responseJson = await response.json();
       const data = Object.keys(responseJson).map(key => {
         return {
